@@ -16,9 +16,9 @@ The API Key will be randomly generated and provided by Abyiss. Sign up for free 
 
 ## API Key Permissions
 
-API Key functionality is restricted by your account plan. Free plans are giving permission to access reference data while premium plans get access to market data.
+Once you receive your API Key, you have access to most of the API endpoints. You are subject to our [rate limits](./rate-limits.md).
 
-To learn more about our pricing and plans click [here](https://abyiss.com/pricing/).
+You will need to be KYC-verified when using the octane [POST transactions](../../octane-api/apis/transactions.md) endpoint. If you are not KYC-verified, you will receive a 403 Forbidden error.
 
 ## Passing Your API Key
 
@@ -35,7 +35,7 @@ Below is an example of how to pass your API Key in the URL Query:
 Below is an example of how to pass your API Key in the Header of a Curl Request:
 
 ```url
-curl -H "apiKey: API KEY" https://api.abyiss.com/v2/cex/exchanges
+curl -H "api-key: API KEY" https://api.abyiss.com/v2/cex/exchanges
 ```
 
 Below is an example of how to pass your API Key in the Body of a Curl Request:
