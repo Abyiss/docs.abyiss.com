@@ -4,20 +4,6 @@ description: 'Closed Alpha - Octane: Crypto to Fiat On and Off Ramp'
 
 # Introduction
 
-{% hint style="warning" %}
-**Request access by emailing** [**support@abyiss.com**](mailto:support@abyiss.com)**.**
-{% endhint %}
-
-## Request Access
-
-To access our Crypto On & Off APIs, please send an email to [support@abyiss.com](mailto:support@abyiss.com) requesting access. Our support team will assist you with the onboarding process.
-
-## Closed Alpha
-
-We are currently in a closed alpha phase. During this stage, access to the platform is limited. However, you can request access by reaching out to our support team or emailing us at [support@abyiss.com](mailto:support@abyiss.com). We appreciate your interest and will do our best to accommodate your request.
-
-## Introduction
-
 Welcome to the Octane API Documentation! This section of our documentation covers everything related to our crypto on and off ramp products, including order APIs, supported blockchains, support cryptocurrency, and more.
 
 Octane offers a robust set of APIs designed to streamline and enhance your crypto on and off-ramp experience. Explore our powerful endpoints to manage bank accounts, execute orders, and gain comprehensive insights into your transactions.
