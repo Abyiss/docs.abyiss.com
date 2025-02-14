@@ -22,9 +22,9 @@ To learn more about Authentication and API Keys please reference the [API Keys -
 
 Our API Endpoints are broken up into a few categories:
 
-* [**Crypto API**](broken-reference): Access real-time and historical data for over 100,000+ cryptocurrencies across 100+ centralized exchanges. Retrieve information such as market prices, trading volumes, and more.
-* [**Blockchain API**](broken-reference): Interact with blockchain networks and retrieve data related to decentralized exchanges, blocks, tokens, liquidity pools, and more. Leverage this API category to build applications that require direct access to blockchain data.
-* [**Alerts API**](broken-reference): Set up custom alerts and notifications for specific events or market conditions. Stay informed about price changes, volume fluctuations, or other criteria that are crucial to your cryptocurrency trading or analysis strategies.
+* [**Octane API**](../octane-api/introduction.md): Access on and off-ramp services for cryptocurrencies.
+* [**Crypto API**](../crypto-api/introduction.md): Access real-time and historical data for over 100,000+ cryptocurrencies across 100+ centralized exchanges. Retrieve information such as market prices, trading volumes, and more.
+* [**Blockchain API**](../blockchain-api/introduction.md): Interact with blockchain networks and retrieve data related to decentralized exchanges, blocks, tokens, liquidity pools, and more. Leverage this API category to build applications that require direct access to blockchain data.
 
 You will need an [API Key](api-architecture/api-keys-authentication.md) to access all of our endpoints.
 

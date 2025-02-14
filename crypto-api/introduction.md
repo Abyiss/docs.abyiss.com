@@ -10,7 +10,7 @@ To get started, you'll need to create an account and API key with Abyiss. This w
 
 Some of the important endpoints available through our API include:
 
-* [Market Data](broken-reference): Access real-time and historical market data from our supported exchanges
+* [Market Data](./rest-apis/current-price.md): Access market data from our supported exchanges
 * [Reference Data](references/): Retrieve information about supported exchanges, trading pairs, and more
 * [Websockets](websockets/): Subscribe to real-time updates on market data and other information
 * [Historical Data](references/historical-data.md): Retrieve historical market data for analysis and backtesting

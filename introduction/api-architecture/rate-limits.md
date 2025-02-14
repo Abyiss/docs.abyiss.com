@@ -12,7 +12,7 @@ By default, all API endpoints are throttled based on the requesting IP address. 
 
 ## Higher Rate Limits
 
-If you require a higher rate limit for your application or have specific business needs, we offer custom rate limit options. To discuss a higher rate limit tailored to your requirements, please contact our sales team at [**sales@abyiss.com**](<mailto:sales@abyiss.com >). They will be happy to assist you with your request.
+If you require a higher rate limit for your application or have specific business needs, we offer custom rate limit options. To discuss a higher rate limit tailored to your requirements, please contact our team at [**support@abyiss.com**](<mailto:support@abyiss.com >). They will be happy to assist you with your request.
 
 ## How It Works
 

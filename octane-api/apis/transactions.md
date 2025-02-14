@@ -6,15 +6,20 @@ description: >-
 
 # Transactions
 
-{% hint style="warning" %}
-**The Endpoint is in Beta**
-{% endhint %}
+## Pre-Requisites
+
+Before you can POST transactions, you need to have the following:
+  1. POST your [bank account](./payment-methods/bank-accounts.md) & retrieve your bank account ID
+  2. POST your [wallet](./payment-methods/wallets.md) & retrieve your wallet ID
+  3. Get [KYC approved by Abyiss](https://abyiss.com/home/onboarding). Please note - if you get redirected to the home page, you are already KYC approved.
+
+## Introduction
 
 Creating and managing transactions with the Octane Transactions API is a straightforward process:
 
 * **Create Transaction (POST):**
   * Use the `/v2/octane/transactions` endpoint.
-  * Provide essential details like blockchain type, currency pairs, quantities, and associated wallet and bank account information in the request body.
+  * Provide essential details like blockchain type, currency pairs, quantities, and associated wallet and bank account information in the request body. More on this below.
   * Results in successful order creation with timestamp and transaction type details.
 * **Retrieve All Orders (GET):**
   * Utilize the `/v2/octane/transactions` endpoint with a GET request.
@@ -22,7 +27,7 @@ Creating and managing transactions with the Octane Transactions API is a straigh
   * Access detailed information such as IDs, blockchain specifics, currencies involved, and timestamps.
   * Upcoming filtering options allow you to refine results.
 * **Retrieve Specific Order (GET):**
-  * Access details of a specific order using the `/v2/octane/transactions/:Id` endpoint.
+  * Access details of a specific order using the `/v2/octane/transactions/:id` endpoint.
   * Provide the order's ID and apiKey.
   * Retrieve comprehensive details, including transaction types, completion status, and precise currency exchange specifics.
 
@@ -34,24 +39,25 @@ Creating and managing transactions with the Octane Transactions API is a straigh
 
 Returns a 201 status code upon successful query. Then returns the successful order. Requires user to have associated bank account and wallet.
 
-#### Headers
+### Headers
 
 | Name                                     | Type   | Description   |
 | ---------------------------------------- | ------ | ------------- |
 | apiKey<mark style="color:red;">\*</mark> | string | Blockchain ID |
 
-#### Request Body
+### Request Body
 
-| Name                                            | Type   | Description                                                    |
-| ----------------------------------------------- | ------ | -------------------------------------------------------------- |
-| sellOrder<mark style="color:red;">\*</mark>     | object | Information about the sell order.                              |
-| walletId<mark style="color:red;">\*</mark>      | string | ID of the wallet associated with the sell order.               |
-| blockchain<mark style="color:red;">\*</mark>    | string | Blockchain used for the sell order.                            |
-| currency<mark style="color:red;">\*</mark>      | string | Currency to be sold.                                           |
-| quantity<mark style="color:red;">\*</mark>      | string | Quantity of the currency to be sold.                           |
-| buyOrder<mark style="color:red;">\*</mark>      | object | Information about the buy order                                |
-| bankAccountId<mark style="color:red;">\*</mark> | string | The bank ID which the money will be sent to or received from.  |
-| currency<mark style="color:red;">\*</mark>      | string | Currency to be bought                                          |
+| Field Name                                        | Type   | Description                                                    |
+| ------------------------------------------------- | ------ | -------------------------------------------------------------- |
+| settlementMethod<mark style="color:red;">\*</mark>| string | How the fiat-side of the transaction will be settled.          |
+| sourceOrder<mark style="color:red;">\*</mark>     | object | Information about where you are sending the currency from.     |
+| destinationOrder<mark style="color:red;">\*</mark>| object | Information about where you are sending the currency to.       |
+| walletId<mark style="color:red;">\*</mark>        | string | ID of the wallet associated with the sell order.               |
+| blockchain<mark style="color:red;">\*</mark>      | string | Blockchain used for the sell order.                            |
+| currency<mark style="color:red;">\*</mark>        | string | Currency to be sold.                                           |
+| quantity<mark style="color:red;">\*</mark>        | string | Quantity of the currency to be sold.                           |
+| bankAccountId<mark style="color:red;">\*</mark>   | string | The bank ID which the money will be sent to or received from.  |
+| currency<mark style="color:red;">\*</mark>        | string | Currency to be bought                                          |
 
 {% tabs %}
 {% tab title="201: Created Success" %}
@@ -59,46 +65,88 @@ Returns a 201 status code upon successful query. Then returns the successful ord
 {
     "id": "txn-123456815",
     "type": "OFF_RAMP",
-    "createdAt": "2024-02-02T01:40:48.492",
+    "createdAt": "2025-02-02T01:40:48.492",
     "flaggedAt": null,
     "completedAt": null,
-    "updatedAt": "2024-02-02T01:40:48.487",
-    "sellOrder": {
-        "id": "ord-123456870",
-        "bankAccountId": null,
-        "blockchain": "avalanche",
-        "createdAt": "2024-02-02T01:40:48.492",
-        "currency": "AVAX",
-        "feeUsd": null,
-        "priceUsd": "6.85",
-        "quantity": ".2004",
-        "updatedAt": "2024-02-02T01:40:48.486",
-        "walletId": "wal-123456790"
+    "updatedAt": "2025-02-02T01:40:48.487",
+    "feeUsd": "0.5",
+    "priceUsd": "50",
+    "sourceOrder": {
+      "bankAccountId": null,
+      "blockchain": "ethereum",
+      "currency": "USDC",
+      "quantity": "50",
+      "walletId": "wal-123456790"
     },
-    "buyOrder": {
-        "id": "ord-123456871",
-        "bankAccountId": "bac-123456788",
-        "blockchain": null,
-        "createdAt": "2024-02-02T01:40:48.492",
-        "currency": "USD",
-        "feeUsd": "0.17",
-        "priceUsd": "6.85",
-        "quantity": "6.67",
-        "updatedAt": "2024-02-02T01:40:48.486",
-        "walletId": "0x065149eab6eFa05F4639Da6305B58C91BD92d456"
+    "destinationOrder": {
+      "bankAccountId": "bac-123456788",
+      "blockchain": null,
+      "currency": "USD",
+      "quantity": "49.5",
+      "walletId": null,
+      "walletAddress": "0x065149eab6eFa05F4639Da6305B58C91BD92d456"
     }
 }
 ```
 {% endtab %}
 
-{% tab title="401: Unauthorized Unauthorized -- Invalid API Key" %}
+{% tab title="400: Bad Request" %}
 ```json
 {
-    "Unauthorized": "Invaild API Key"
+  "errors": [{
+    "message": "Invalid Request: Missing required field"
+  }],
+  "code": 400
+}
+```
+{% endtab %}
+
+{% tab title="401: Unauthorized" %}
+```json
+{
+  "errors": [{
+    "message": "Unauthorized: Invalid API Key"
+  }],
+  "code": 401
+}
+```
+{% endtab %}
+
+{% tab title="403: Forbidden" %}
+```json
+{
+  "errors": [{
+    "message": "Forbidden: Account is not KYC/KYB verified. Please contact support@abyiss.com"
+  }],
+  "code": 403
 }
 ```
 {% endtab %}
 {% endtabs %}
+
+### Transaction Customization
+
+#### Selecting a Settlement Method
+Abyiss supports `ACH` and `WIRE` as settlement methods. You can select the settlement method by providing one of the othe former values in the `transaction.settlementMethod` field. Please note that for on ramping, we only support `WIRE` transactions. This means that if you would like to buy crypto with a fiat currency, you must send Abyiss a wire transfer. For off ramping, we support both `ACH` and `WIRE` transactions. This means that if you would like to sell crypto for a fiat currency, you can choose to receive USD directly in your bank account via either WIRE or ACH.
+
+##### WIRES
+
+Wires cost $25 when OFF RAMPing.
+We do not charge for WIRES when ON RAMPing, however, your bank may charge you a wire fee.
+
+When off ramping via wire, you will receive your funds in your bank account within 1-2 business days. Often times, you will receive your funds the same day that we send them. Please note that since Abyiss is a US-based company, we only send wires during US business hours. This means that if you request a wire after 5 PM EST, it will most likely be sent the next business day.
+
+##### ACH
+
+ACH transactions are completely free on the Abyiss network. ACH transactions can take 2-5 business days to settle. ACH transactions are only available for off ramping. This means that if you would like to sell crypto for a fiat currency, you can choose to receive USD directly in your bank account via ACH.
+
+#### Selecting a Blockchain
+
+Please ensure that when selecting a blockchain, that you are using a wallet address that has been registered to that blockchain. For example, if you are using the Ethereum blockchain, you must use an Ethereum wallet address. If you are using the Avalanche blockchain, you must use an Avalanche wallet address. For wallet addresses that are usable across multiple blockchains, you must register the wallet address to each blockchain that you would like to use it with.
+
+#### Sending an Off Ramp Transaction
+
+#### Sending an On Ramp Transaction
 
 ## Get Transactions
 
@@ -116,70 +164,76 @@ Returns an array of all the orders for an associated `apiKey`.
 {% tab title="200: OK Success" %}
 ```json
 [
-    {
-        "id": "txn-123456791",
-        "type": "OFF_RAMP",
-        "createdAt": "2024-01-30T16:31:06.407",
-        "flaggedAt": null,
-        "completedAt": null,
-        "updatedAt": "2024-01-30T16:31:06.401",
-        "sellOrder": {
-            "id": "ord-123456790",
-            "bankAccountId": null,
-            "blockchain": "ethereum",
-            "createdAt": "2024-01-30T16:31:06.407",
-            "currency": "ETH",
-            "feeUsd": null,
-            "priceUsd": null,
-            "quantity": "54.555544",
-            "updatedAt": "2024-01-30T16:31:06.4",
-            "walletId": "wal-123456790"
-        },
-        "buyOrder": {
-            "id": "ord-123456791",
-            "bankAccountId": "bac-123456788",
-            "blockchain": null,
-            "createdAt": "2024-01-30T16:31:06.407",
-            "currency": "USD",
-            "feeUsd": null,
-            "priceUsd": null,
-            "quantity": null,
-            "updatedAt": "2024-01-30T16:31:06.4",
-            "walletId": null
-        }
+  {
+    "id": "txn-123456804",
+    "type": "ON_RAMP",
+    "settlementMethod": "WIRE",
+    "priceUsd": "100.00",
+    "feeUsd": "2.50",
+    "ipAddressId": "1",
+    "createdAt": "2025-02-13T23:21:05.666",
+    "flaggedAt": null,
+    "completedAt": null,
+    "updatedAt": "2025-02-13T23:21:05.665",
+    "userId": "usr-123456788",
+    "sourceOrder": {
+      "id": "ord-123456887",
+      "bankAccountId": "bac-123456788",
+      "blockchain": null,
+      "createdAt": "2025-02-13T23:21:05.666",
+      "currency": "USD",
+      "quantity": "100.00",
+      "updatedAt": "2025-02-13T23:21:05.659",
+      "walletId": null,
+      "walletAddress": null
     },
-    {
-        "id": "txn-123456790",
-        "type": "OFF_RAMP",
-        "createdAt": "2024-01-30T16:31:21.479",
-        "flaggedAt": null,
-        "completedAt": null,
-        "updatedAt": "2024-01-30T16:31:21.475",
-        "sellOrder": {
-            "id": "ord-123456784",
-            "bankAccountId": null,
-            "blockchain": "avalanche",
-            "createdAt": "2024-01-30T16:31:21.479",
-            "currency": "AVAX",
-            "feeUsd": null,
-            "priceUsd": null,
-            "quantity": "54.555544",
-            "updatedAt": "2024-01-30T16:31:21.475",
-            "walletId": "wal-123456790"
-        },
-        "buyOrder": {
-            "id": "ord-123456785",
-            "bankAccountId": "bac-123456788",
-            "blockchain": null,
-            "createdAt": "2024-01-30T16:31:21.479",
-            "currency": "USD",
-            "feeUsd": null,
-            "priceUsd": null,
-            "quantity": null,
-            "updatedAt": "2024-01-30T16:31:21.475",
-            "walletId": null
-        }
+    "destinationOrder": {
+      "id": "ord-123456884",
+      "bankAccountId": null,
+      "blockchain": "ethereum",
+      "createdAt": "2025-02-13T23:21:05.666",
+      "currency": "ETH",
+      "quantity": "0.03647559689040861",
+      "updatedAt": "2025-02-13T23:21:05.659",
+      "walletId": "wal-123456788",
+      "walletAddress": "someAddress"
     }
+  },
+  {
+    "id": "txn-123456807",
+    "type": "OFF_RAMP",
+    "settlementMethod": "WIRE",
+    "priceUsd": "100.00",
+    "feeUsd": "27.50",
+    "ipAddressId": "1",
+    "createdAt": "2025-02-13T23:21:24.592",
+    "flaggedAt": null,
+    "completedAt": null,
+    "updatedAt": "2025-02-13T23:21:24.589",
+    "userId": "usr-123456788",
+    "sourceOrder": {
+      "id": "ord-123456881",
+      "bankAccountId": null,
+      "blockchain": "ethereum",
+      "createdAt": "2025-02-13T23:21:24.592",
+      "currency": "ETH",
+      "quantity": "0.03740792973294478",
+      "updatedAt": "2025-02-13T23:21:24.589",
+      "walletId": "wal-123456788",
+      "walletAddress": "someAddress"
+    },
+    "destinationOrder": {
+      "id": "ord-123456886",
+      "bankAccountId": "bac-123456788",
+      "blockchain": null,
+      "createdAt": "2025-02-13T23:21:24.592",
+      "currency": "USD",
+      "quantity": "72.5",
+      "updatedAt": "2025-02-13T23:21:24.589",
+      "walletId": null,
+      "walletAddress": null
+  }
+  }
 ]
 ```
 {% endtab %}
