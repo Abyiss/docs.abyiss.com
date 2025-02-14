@@ -47,45 +47,51 @@ Returns a 201 status code upon successful query. Then returns the successful ord
 
 ### Request Body
 
-| Field Name                                        | Type   | Description                                                    |
+The transaction request object is broken up into two levels. The top-level transaction request object contains the three fields in the following table. The second level contains the information inside the sourceOrder and destinationOrder objects.
+
+| Top Level Transaction Field Name                  | Type   | Description                                                    |
 | ------------------------------------------------- | ------ | -------------------------------------------------------------- |
 | settlementMethod<mark style="color:red;">\*</mark>| string | How the fiat-side of the transaction will be settled.          |
 | sourceOrder<mark style="color:red;">\*</mark>     | object | Information about where you are sending the currency from.     |
 | destinationOrder<mark style="color:red;">\*</mark>| object | Information about where you are sending the currency to.       |
-| walletId<mark style="color:red;">\*</mark>        | string | ID of the wallet associated with the sell order.               |
-| blockchain<mark style="color:red;">\*</mark>      | string | Blockchain used for the sell order.                            |
-| currency<mark style="color:red;">\*</mark>        | string | Currency to be sold.                                           |
-| quantity<mark style="color:red;">\*</mark>        | string | Quantity of the currency to be sold.                           |
-| bankAccountId<mark style="color:red;">\*</mark>   | string | The bank ID which the money will be sent to or received from.  |
-| currency<mark style="color:red;">\*</mark>        | string | Currency to be bought                                          |
+
+The sourceOrder and the Destination Order are identical in structure. It is worth noting that not all fields are required for each destination and source order. However, a combination of all fields are required amongst the entire transaction. Please reference [transaction customization](#transaction-customization) for more information. The fields for source and destination order request objects are outlined below.
+
+| Order Field Name                                  | Type   | Description                                                    |
+| --------------------------------------------------| ------ | -------------------------------------------------------------- |
+| walletId<mark style="color:red;">\*</mark>        | string | The user's wallet ID associated with the order.                |
+| blockchain<mark style="color:red;">\*</mark>      | string | Blockchain used for the order.                                 |
+| currency<mark style="color:red;">\*</mark>        | string | Currency of the order.                                         |
+| quantity<mark style="color:red;">\*</mark>        | string | Quantity of the currency in the order.                         |
+| bankAccountId<mark style="color:red;">\*</mark>   | string | The user's bank ID which the fiat will be sent or received.    |
 
 {% tabs %}
 {% tab title="201: Created Success" %}
 ```json
 {
-    "id": "txn-123456815",
-    "type": "OFF_RAMP",
-    "createdAt": "2025-02-02T01:40:48.492",
-    "flaggedAt": null,
-    "completedAt": null,
-    "updatedAt": "2025-02-02T01:40:48.487",
-    "feeUsd": "0.5",
-    "priceUsd": "50",
-    "sourceOrder": {
-      "bankAccountId": null,
-      "blockchain": "ethereum",
-      "currency": "USDC",
-      "quantity": "50",
-      "walletId": "wal-123456790"
-    },
-    "destinationOrder": {
-      "bankAccountId": "bac-123456788",
-      "blockchain": null,
-      "currency": "USD",
-      "quantity": "49.5",
-      "walletId": null,
-      "walletAddress": "0x065149eab6eFa05F4639Da6305B58C91BD92d456"
-    }
+  "id": "txn-123456815",
+  "type": "OFF_RAMP",
+  "createdAt": "2025-02-02T01:40:48.492",
+  "flaggedAt": null,
+  "completedAt": null,
+  "updatedAt": "2025-02-02T01:40:48.487",
+  "feeUsd": "0.5",
+  "priceUsd": "50",
+  "sourceOrder": {
+    "bankAccountId": null,
+    "blockchain": "ethereum",
+    "currency": "USDC",
+    "quantity": "50",
+    "walletId": "wal-123456790"
+  },
+  "destinationOrder": {
+    "bankAccountId": "bac-123456788",
+    "blockchain": null,
+    "currency": "USD",
+    "quantity": "49.5",
+    "walletId": null,
+    "walletAddress": "0x065149eab6eFa05F4639Da6305B58C91BD92d456"
+  }
 }
 ```
 {% endtab %}
@@ -144,9 +150,13 @@ ACH transactions are completely free on the Abyiss network. ACH transactions can
 
 Please ensure that when selecting a blockchain, that you are using a wallet address that has been registered to that blockchain. For example, if you are using the Ethereum blockchain, you must use an Ethereum wallet address. If you are using the Avalanche blockchain, you must use an Avalanche wallet address. For wallet addresses that are usable across multiple blockchains, you must register the wallet address to each blockchain that you would like to use it with.
 
-#### Sending an Off Ramp Transaction
+#### Off Ramp Transaction
 
-#### Sending an On Ramp Transaction
+Off ramp transactions are inferred from the request. If the source order contains wallet and blockchain information and the destination order contains bank account information, then the transaction is an off-ramp transaction. Off ramp transactions may be settled in your bank account via ACH or WIRE.
+
+#### On Ramp Transaction
+
+On ramp transactions are inferred from the request. If the source order contains bank account information and the destination order contains wallet and blockchain information, then the transaction is an on-ramp transaction. On ramp transactions are settled directly in your wallet.
 
 ## Get Transactions
 
@@ -170,7 +180,6 @@ Returns an array of all the orders for an associated `apiKey`.
     "settlementMethod": "WIRE",
     "priceUsd": "100.00",
     "feeUsd": "2.50",
-    "ipAddressId": "1",
     "createdAt": "2025-02-13T23:21:05.666",
     "flaggedAt": null,
     "completedAt": null,
@@ -184,8 +193,7 @@ Returns an array of all the orders for an associated `apiKey`.
       "currency": "USD",
       "quantity": "100.00",
       "updatedAt": "2025-02-13T23:21:05.659",
-      "walletId": null,
-      "walletAddress": null
+      "walletId": null
     },
     "destinationOrder": {
       "id": "ord-123456884",
@@ -195,8 +203,7 @@ Returns an array of all the orders for an associated `apiKey`.
       "currency": "ETH",
       "quantity": "0.03647559689040861",
       "updatedAt": "2025-02-13T23:21:05.659",
-      "walletId": "wal-123456788",
-      "walletAddress": "someAddress"
+      "walletId": "wal-123456788"
     }
   },
   {
@@ -205,7 +212,6 @@ Returns an array of all the orders for an associated `apiKey`.
     "settlementMethod": "WIRE",
     "priceUsd": "100.00",
     "feeUsd": "27.50",
-    "ipAddressId": "1",
     "createdAt": "2025-02-13T23:21:24.592",
     "flaggedAt": null,
     "completedAt": null,
@@ -219,8 +225,7 @@ Returns an array of all the orders for an associated `apiKey`.
       "currency": "ETH",
       "quantity": "0.03740792973294478",
       "updatedAt": "2025-02-13T23:21:24.589",
-      "walletId": "wal-123456788",
-      "walletAddress": "someAddress"
+      "walletId": "wal-123456788"
     },
     "destinationOrder": {
       "id": "ord-123456886",
@@ -230,9 +235,8 @@ Returns an array of all the orders for an associated `apiKey`.
       "currency": "USD",
       "quantity": "72.5",
       "updatedAt": "2025-02-13T23:21:24.589",
-      "walletId": null,
-      "walletAddress": null
-  }
+      "walletId": null
+    }
   }
 ]
 ```
@@ -269,36 +273,36 @@ Returns an object for the `transactionId`for an associated `apiKey`.
 {% tab title="200: OK Success" %}
 ```json
 {
-    "id": "txn-123456815",
-    "type": "OFF_RAMP",
+  "id": "txn-123456815",
+  "type": "OFF_RAMP",
+  "createdAt": "2024-02-02T01:40:48.492",
+  "flaggedAt": null,
+  "completedAt": null,
+  "updatedAt": "2024-02-02T01:40:48.487",
+  "sellOrder": {
+    "id": "ord-123456870",
+    "bankAccountId": null,
+    "blockchain": "avalanche",
     "createdAt": "2024-02-02T01:40:48.492",
-    "flaggedAt": null,
-    "completedAt": null,
-    "updatedAt": "2024-02-02T01:40:48.487",
-    "sellOrder": {
-        "id": "ord-123456870",
-        "bankAccountId": null,
-        "blockchain": "avalanche",
-        "createdAt": "2024-02-02T01:40:48.492",
-        "currency": "AVAX",
-        "feeUsd": null,
-        "priceUsd": "6.85",
-        "quantity": ".2004",
-        "updatedAt": "2024-02-02T01:40:48.486",
-        "walletId": "wal-123456790"
-    },
-    "buyOrder": {
-        "id": "ord-123456871",
-        "bankAccountId": "bac-123456788",
-        "blockchain": null,
-        "createdAt": "2024-02-02T01:40:48.492",
-        "currency": "USD",
-        "feeUsd": "0.17",
-        "priceUsd": "6.85",
-        "quantity": "6.67",
-        "updatedAt": "2024-02-02T01:40:48.486",
-        "walletId": "0x065149eab6eFa05F4639Da6305B58C91BD92d456"
-    }
+    "currency": "AVAX",
+    "feeUsd": null,
+    "priceUsd": "6.85",
+    "quantity": ".2004",
+    "updatedAt": "2024-02-02T01:40:48.486",
+    "walletId": "wal-123456790"
+  },
+  "buyOrder": {
+    "id": "ord-123456871",
+    "bankAccountId": "bac-123456788",
+    "blockchain": null,
+    "createdAt": "2024-02-02T01:40:48.492",
+    "currency": "USD",
+    "feeUsd": "0.17",
+    "priceUsd": "6.85",
+    "quantity": "6.67",
+    "updatedAt": "2024-02-02T01:40:48.486",
+    "walletId": null,
+  }
 }
 ```
 {% endtab %}
@@ -324,14 +328,14 @@ curl -X POST https://api.abyiss.com/v2/octane/transactions?apiKey=YOUR_API_KEY_H
 -d '{
   "transaction": {
     "sellOrder": {
-        "walletId": "wal-123456790",
-        "blockchain": "avalanche",
-        "currency": "AVAX",
-        "quantity": ".2004"
+      "walletId": "wal-123456790",
+      "blockchain": "avalanche",
+      "currency": "AVAX",
+      "quantity": ".2004"
     },
     "buyOrder": {
-        "bankAccountId": "bac-123456788",
-        "currency": "USD"
+      "bankAccountId": "bac-123456788",
+      "currency": "USD"
     }
   }
 }'
@@ -353,14 +357,14 @@ headers = {
 payload = {
   "transaction": {
     "sellOrder": {
-        "walletId": "wal-123456790",
-        "blockchain": "avalanche",
-        "currency": "AVAX",
-        "quantity": ".2004"
+      "walletId": "wal-123456790",
+      "blockchain": "avalanche",
+      "currency": "AVAX",
+      "quantity": ".2004"
     },
     "buyOrder": {
-        "bankAccountId": "bac-123456788",
-        "currency": "USD"
+      "bankAccountId": "bac-123456788",
+      "currency": "USD"
     }
   }
 }
@@ -379,14 +383,14 @@ const url = 'https://api.abyiss.com/v2/octane/transactions?apiKey=YOUR_API_KEY_H
 const payload = {
   "transaction": {
     "sellOrder": {
-        "walletId": "wal-123456790",
-        "blockchain": "avalanche",
-        "currency": "AVAX",
-        "quantity": ".2004"
+      "walletId": "wal-123456790",
+      "blockchain": "avalanche",
+      "currency": "AVAX",
+      "quantity": ".2004"
     },
     "buyOrder": {
-        "bankAccountId": "bac-123456788",
-        "currency": "USD"
+      "bankAccountId": "bac-123456788",
+      "currency": "USD"
     }
   }
 };
@@ -466,36 +470,37 @@ Example URL: [https://api.abyiss.com/v2/octane/transactions?apiKey=](https://api
 
 ```json
 {
-    "id": "txn-123456815",
-    "type": "OFF_RAMP",
+  "id": "txn-123456815",
+  "type": "OFF_RAMP",
+  "createdAt": "2024-02-02T01:40:48.492",
+  "flaggedAt": null,
+  "completedAt": null,
+  "updatedAt": "2024-02-02T01:40:48.487",
+  "sellOrder": {
+    "id": "ord-123456870",
+    "bankAccountId": null,
+    "blockchain": "avalanche",
     "createdAt": "2024-02-02T01:40:48.492",
-    "flaggedAt": null,
-    "completedAt": null,
-    "updatedAt": "2024-02-02T01:40:48.487",
-    "sellOrder": {
-        "id": "ord-123456870",
-        "bankAccountId": null,
-        "blockchain": "avalanche",
-        "createdAt": "2024-02-02T01:40:48.492",
-        "currency": "AVAX",
-        "feeUsd": null,
-        "priceUsd": "6.85",
-        "quantity": ".2004",
-        "updatedAt": "2024-02-02T01:40:48.486",
-        "walletId": "wal-123456790"
-    },
-    "buyOrder": {
-        "id": "ord-123456871",
-        "bankAccountId": "bac-123456788",
-        "blockchain": null,
-        "createdAt": "2024-02-02T01:40:48.492",
-        "currency": "USD",
-        "feeUsd": "0.17",
-        "priceUsd": "6.85",
-        "quantity": "6.67",
-        "updatedAt": "2024-02-02T01:40:48.486",
-        "walletId": "0x065149eab6eFa05F4639Da6305B58C91BD92d456"
-    }
+    "currency": "AVAX",
+    "feeUsd": null,
+    "priceUsd": "6.85",
+    "quantity": ".2004",
+    "updatedAt": "2024-02-02T01:40:48.486",
+    "walletId": "wal-123456790"
+  },
+  "buyOrder": {
+    "id": "ord-123456871",
+    "bankAccountId": "bac-123456788",
+    "blockchain": null,
+    "createdAt": "2024-02-02T01:40:48.492",
+    "currency": "USD",
+    "feeUsd": "0.17",
+    "priceUsd": "6.85",
+    "quantity": "6.67",
+    "updatedAt": "2024-02-02T01:40:48.486",
+    "walletId": null,
+    "walletAddress": "0x065149eab6eFa05F4639Da6305B58C91BD92d456"
+  }
 }
 ```
 {% endtab %}
@@ -505,70 +510,70 @@ Example URL: [https://api.abyiss.com/v2/octane/transactions?apiKey=](https://api
 
 ```json
 [
-    {
-        "id": "txn-123456791",
-        "type": "OFF_RAMP",
-        "createdAt": "2024-01-30T16:31:06.407",
-        "flaggedAt": null,
-        "completedAt": null,
-        "updatedAt": "2024-01-30T16:31:06.401",
-        "sellOrder": {
-            "id": "ord-123456790",
-            "bankAccountId": null,
-            "blockchain": "ethereum",
-            "createdAt": "2024-01-30T16:31:06.407",
-            "currency": "ETH",
-            "feeUsd": null,
-            "priceUsd": null,
-            "quantity": "54.555544",
-            "updatedAt": "2024-01-30T16:31:06.4",
-            "walletId": "wal-123456790"
-        },
-        "buyOrder": {
-            "id": "ord-123456791",
-            "bankAccountId": "bac-123456788",
-            "blockchain": null,
-            "createdAt": "2024-01-30T16:31:06.407",
-            "currency": "USD",
-            "feeUsd": null,
-            "priceUsd": null,
-            "quantity": null,
-            "updatedAt": "2024-01-30T16:31:06.4",
-            "walletId": null
-        }
+  {
+    "id": "txn-123456791",
+    "type": "OFF_RAMP",
+    "createdAt": "2024-01-30T16:31:06.407",
+    "flaggedAt": null,
+    "completedAt": null,
+    "updatedAt": "2024-01-30T16:31:06.401",
+    "sellOrder": {
+      "id": "ord-123456790",
+      "bankAccountId": null,
+      "blockchain": "ethereum",
+      "createdAt": "2024-01-30T16:31:06.407",
+      "currency": "ETH",
+      "feeUsd": null,
+      "priceUsd": null,
+      "quantity": "54.555544",
+      "updatedAt": "2024-01-30T16:31:06.4",
+      "walletId": "wal-123456790"
     },
-    {
-        "id": "txn-123456790",
-        "type": "OFF_RAMP",
-        "createdAt": "2024-01-30T16:31:21.479",
-        "flaggedAt": null,
-        "completedAt": null,
-        "updatedAt": "2024-01-30T16:31:21.475",
-        "sellOrder": {
-            "id": "ord-123456784",
-            "bankAccountId": null,
-            "blockchain": "avalanche",
-            "createdAt": "2024-01-30T16:31:21.479",
-            "currency": "AVAX",
-            "feeUsd": null,
-            "priceUsd": null,
-            "quantity": "54.555544",
-            "updatedAt": "2024-01-30T16:31:21.475",
-            "walletId": "wal-123456790"
-        },
-        "buyOrder": {
-            "id": "ord-123456785",
-            "bankAccountId": "bac-123456788",
-            "blockchain": null,
-            "createdAt": "2024-01-30T16:31:21.479",
-            "currency": "USD",
-            "feeUsd": null,
-            "priceUsd": null,
-            "quantity": null,
-            "updatedAt": "2024-01-30T16:31:21.475",
-            "walletId": null
-        }
+    "buyOrder": {
+      "id": "ord-123456791",
+      "bankAccountId": "bac-123456788",
+      "blockchain": null,
+      "createdAt": "2024-01-30T16:31:06.407",
+      "currency": "USD",
+      "feeUsd": null,
+      "priceUsd": null,
+      "quantity": null,
+      "updatedAt": "2024-01-30T16:31:06.4",
+      "walletId": null
     }
+},
+{
+    "id": "txn-123456790",
+    "type": "OFF_RAMP",
+    "createdAt": "2024-01-30T16:31:21.479",
+    "flaggedAt": null,
+    "completedAt": null,
+    "updatedAt": "2024-01-30T16:31:21.475",
+    "sellOrder": {
+      "id": "ord-123456784",
+      "bankAccountId": null,
+      "blockchain": "avalanche",
+      "createdAt": "2024-01-30T16:31:21.479",
+      "currency": "AVAX",
+      "feeUsd": null,
+      "priceUsd": null,
+      "quantity": "54.555544",
+      "updatedAt": "2024-01-30T16:31:21.475",
+      "walletId": "wal-123456790"
+    },
+    "buyOrder": {
+      "id": "ord-123456785",
+      "bankAccountId": "bac-123456788",
+      "blockchain": null,
+      "createdAt": "2024-01-30T16:31:21.479",
+      "currency": "USD",
+      "feeUsd": null,
+      "priceUsd": null,
+      "quantity": null,
+      "updatedAt": "2024-01-30T16:31:21.475",
+      "wallet": null,
+    }
+  }
 ]
 ```
 {% endtab %}
@@ -578,36 +583,36 @@ Example URL: [https://api.abyiss.com/v2/octane/transactions/txn-123456815?apiKey
 
 ```json
 {
-    "id": "txn-123456815",
-    "type": "OFF_RAMP",
+  "id": "txn-123456815",
+  "type": "OFF_RAMP",
+  "createdAt": "2024-02-02T01:40:48.492",
+  "flaggedAt": null,
+  "completedAt": null,
+  "updatedAt": "2024-02-02T01:40:48.487",
+  "sellOrder": {
+    "id": "ord-123456870",
+    "bankAccountId": null,
+    "blockchain": "avalanche",
     "createdAt": "2024-02-02T01:40:48.492",
-    "flaggedAt": null,
-    "completedAt": null,
-    "updatedAt": "2024-02-02T01:40:48.487",
-    "sellOrder": {
-        "id": "ord-123456870",
-        "bankAccountId": null,
-        "blockchain": "avalanche",
-        "createdAt": "2024-02-02T01:40:48.492",
-        "currency": "AVAX",
-        "feeUsd": null,
-        "priceUsd": "6.85",
-        "quantity": ".2004",
-        "updatedAt": "2024-02-02T01:40:48.486",
-        "walletId": "wal-123456790"
-    },
-    "buyOrder": {
-        "id": "ord-123456871",
-        "bankAccountId": "bac-123456788",
-        "blockchain": null,
-        "createdAt": "2024-02-02T01:40:48.492",
-        "currency": "USD",
-        "feeUsd": "0.17",
-        "priceUsd": "6.85",
-        "quantity": "6.67",
-        "updatedAt": "2024-02-02T01:40:48.486",
-        "walletId": "0x065149eab6eFa05F4639Da6305B58C91BD92d456"
-    }
+    "currency": "AVAX",
+    "feeUsd": null,
+    "priceUsd": "6.85",
+    "quantity": ".2004",
+    "updatedAt": "2024-02-02T01:40:48.486",
+    "walletId": "wal-123456790"
+  },
+  "buyOrder": {
+    "id": "ord-123456871",
+    "bankAccountId": "bac-123456788",
+    "blockchain": null,
+    "createdAt": "2024-02-02T01:40:48.492",
+    "currency": "USD",
+    "feeUsd": "0.17",
+    "priceUsd": "6.85",
+    "quantity": "6.67",
+    "updatedAt": "2024-02-02T01:40:48.486",
+    "walletId": null
+  }
 }
 ```
 {% endtab %}
