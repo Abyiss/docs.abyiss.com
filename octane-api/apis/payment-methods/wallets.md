@@ -43,14 +43,12 @@ Create a new crypto wallet by providing the required wallet details. Upon a succ
 {% tab title="201: Created -- Success" %}
 ```json
 {
-    "id": "wal-123456785",
-    "userId": "usr-123456788",
-    "address": "some-addy",
-    "blockchain": "some-chain",
-    "isActive": true,
-    "isVerified": false,
-    "createdAt": "2024-02-02T02:09:55.963",
-    "updatedAt": "2024-02-02T02:09:55.958"
+  "id": "wal-123456785",
+  "userId": "usr-123456788",
+  "address": "some-addy",
+  "blockchain": "some-chain",
+  "createdAt": "2024-02-02T02:09:55.963",
+  "updatedAt": "2024-02-02T02:09:55.958"
 }
 ```
 {% endtab %}
@@ -58,7 +56,7 @@ Create a new crypto wallet by providing the required wallet details. Upon a succ
 {% tab title="401: Unauthorized -- Invalid API Key" %}
 ```json
 {
-    "Unauthorized": "Invaild API Key"
+  "Unauthorized": "Invaild API Key"
 }
 ```
 {% endtab %}
@@ -80,26 +78,22 @@ Retrieves all crypto wallets associated with the provided API key. Upon a succes
 {% tab title="200: OK -- Success" %}
 ```json
 [
-    {
-        "id": "wal-123456788",
-        "userId": "usr-123456788",
-        "address": "someAddress",
-        "blockchain": "ethereum",
-        "isActive": true,
-        "isVerified": true,
-        "createdAt": "2024-01-30T15:06:08.568",
-        "updatedAt": "2024-01-30T15:06:08.563"
-    },
-    {
-        "id": "wal-123456785",
-        "userId": "usr-123456788",
-        "address": "1234568",
-        "blockchain": "bitcoin",
-        "isActive": true,
-        "isVerified": false,
-        "createdAt": "2024-02-02T02:09:55.963",
-        "updatedAt": "2024-02-02T02:09:55.958"
-    }
+  {
+    "id": "wal-123456788",
+    "userId": "usr-123456788",
+    "address": "someAddress",
+    "blockchain": "ethereum",
+    "createdAt": "2024-01-30T15:06:08.568",
+    "updatedAt": "2024-01-30T15:06:08.563"
+  },
+  {
+    "id": "wal-123456785",
+    "userId": "usr-123456788",
+    "address": "1234568",
+    "blockchain": "bitcoin",
+    "createdAt": "2024-02-02T02:09:55.963",
+    "updatedAt": "2024-02-02T02:09:55.958"
+  }
 ]
 ```
 {% endtab %}
@@ -135,14 +129,12 @@ Retrieves the details of a specific crypto wallet using its unique wallet ID. Up
 {% tab title="200: OK -- Success" %}
 ```json
 {
-    "id": "wal-123456785",
-    "userId": "usr-123456788",
-    "address": "some-addy",
-    "blockchain": "bitcoin",
-    "isActive": true,
-    "isVerified": false,
-    "createdAt": "2024-02-02T02:09:55.963",
-    "updatedAt": "2024-02-02T02:09:55.958"
+  "id": "wal-123456785",
+  "userId": "usr-123456788",
+  "address": "some-addy",
+  "blockchain": "bitcoin",
+  "createdAt": "2024-02-02T02:09:55.963",
+  "updatedAt": "2024-02-02T02:09:55.958"
 }
 ```
 {% endtab %}
@@ -150,7 +142,7 @@ Retrieves the details of a specific crypto wallet using its unique wallet ID. Up
 {% tab title="401: Unauthorized -- Invalid API Key" %}
 ```json
 {
-    "Unauthorized": "Invaild API Key"
+  "Unauthorized": "Invaild API Key"
 }
 ```
 {% endtab %}
@@ -186,7 +178,7 @@ No Content
 {% tab title="401: Unauthorized -- Invalid API Key" %}
 ```json
 {
-    "Unauthorized": "Invaild API Key"
+  "Unauthorized": "Invaild API Key"
 }
 ```
 {% endtab %}
@@ -219,15 +211,15 @@ import json
 
 url = "https://api.abyiss.com/v2/octane/paymentMethods/wallets"
 headers = {
-    "Content-Type": "application/json",
-    "apiKey": "123abc"
+  "Content-Type": "application/json",
+  "apiKey": "123abc"
 }
 
 wallet_data = {
-    "wallet": {
-        "address": "0xsome-address",
-        "blockchain": "Ethereum"
-    }
+  "wallet": {
+    "address": "0xsome-address",
+    "blockchain": "Ethereum"
+  }
 }
 
 response = requests.post(url, headers=headers, data=json.dumps(wallet_data))
@@ -243,26 +235,26 @@ const axios = require('axios');
 
 const url = 'https://api.abyiss.com/v2/octane/paymentMethods/wallets';
 const headers = {
-    'Content-Type': 'application/json',
-    'apiKey': '123abc'
+  'Content-Type': 'application/json',
+  'apiKey': '123abc'
 };
 
 const walletData = {
-    wallet: {
-        address: '0xsome-address',
-        blockchain: 'Ethereum'
-    }
+  wallet: {
+    address: '0xsome-address',
+    blockchain: 'Ethereum'
+  }
 };
 
 axios.post(url, walletData, { headers })
-    .then(response => {
-        console.log(response.status);
-        console.log(response.data);
-    })
-    .catch(error => {
-        console.error(error.response.status);
-        console.error(error.response.data);
-    });
+  .then(response => {
+    console.log(response.status);
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error(error.response.status);
+    console.error(error.response.data);
+  });
 ```
 {% endtab %}
 {% endtabs %}
@@ -318,14 +310,12 @@ Example URL: [https://api.abyiss.com/v2/octane/paymentMethods/wallets?apiKey=](h
 
 ```json
 {
-    "id": "wal-123456785",
-    "userId": "usr-123456788",
-    "address": "some-addy",
-    "blockchain": "some-chain",
-    "isActive": true,
-    "isVerified": false,
-    "createdAt": "2024-02-02T02:09:55.963",
-    "updatedAt": "2024-02-02T02:09:55.958"
+  "id": "wal-123456785",
+  "userId": "usr-123456788",
+  "address": "some-addy",
+  "blockchain": "some-chain",
+  "createdAt": "2024-02-02T02:09:55.963",
+  "updatedAt": "2024-02-02T02:09:55.958"
 }
 ```
 {% endtab %}
@@ -335,26 +325,22 @@ Example URL: [https://api.abyiss.com/v2/octane/paymentMethods/wallets?apiKey=](h
 
 ```json
 [
-    {
-        "id": "wal-123456788",
-        "userId": "usr-123456788",
-        "address": "someAddress",
-        "blockchain": "ethereum",
-        "isActive": true,
-        "isVerified": false,
-        "createdAt": "2024-01-30T15:06:08.568",
-        "updatedAt": "2024-01-30T15:06:08.563"
-    },
-    {
-        "id": "wal-123456785",
-        "userId": "usr-123456788",
-        "address": "some-addy",
-        "blockchain": "some-chain",
-        "isActive": true,
-        "isVerified": false,
-        "createdAt": "2024-02-02T02:09:55.963",
-        "updatedAt": "2024-02-02T02:09:55.958"
-    }
+  {
+    "id": "wal-123456788",
+    "userId": "usr-123456788",
+    "address": "someAddress",
+    "blockchain": "ethereum",
+    "createdAt": "2024-01-30T15:06:08.568",
+    "updatedAt": "2024-01-30T15:06:08.563"
+  },
+  {
+    "id": "wal-123456785",
+    "userId": "usr-123456788",
+    "address": "some-addy",
+    "blockchain": "some-chain",
+    "createdAt": "2024-02-02T02:09:55.963",
+    "updatedAt": "2024-02-02T02:09:55.958"
+  }
 ]
 ```
 {% endtab %}
@@ -364,14 +350,12 @@ Example URL: [https://api.abyiss.com/v2/octane/paymentMethods/wallets/wal-123456
 
 ```json
 {
-    "id": "wal-123456785",
-    "userId": "usr-123456788",
-    "address": "some-addy",
-    "blockchain": "some-chain",
-    "isActive": true,
-    "isVerified": false,
-    "createdAt": "2024-02-02T02:09:55.963",
-    "updatedAt": "2024-02-02T02:09:55.958"
+  "id": "wal-123456785",
+  "userId": "usr-123456788",
+  "address": "some-addy",
+  "blockchain": "some-chain",
+  "createdAt": "2024-02-02T02:09:55.963",
+  "updatedAt": "2024-02-02T02:09:55.958"
 }
 ```
 {% endtab %}
@@ -379,5 +363,5 @@ Example URL: [https://api.abyiss.com/v2/octane/paymentMethods/wallets/wal-123456
 
 ## Wallets Response Attributes
 
-<table><thead><tr><th width="259.3333333333333">Attribute Name</th><th>Data Type</th><th>Description </th></tr></thead><tbody><tr><td>id</td><td>string</td><td>Wallet Id for the user.</td></tr><tr><td>userId</td><td>string </td><td>Unique user Id. </td></tr><tr><td>address</td><td>string</td><td>The crypto wallet address.</td></tr><tr><td>blockchain</td><td>string</td><td>The blockchain the wallet is on.</td></tr><tr><td>isActive</td><td>boolean</td><td>If the wallet is currently active. True or False.</td></tr><tr><td>isVerified</td><td>boolean</td><td>Indicates whether the wallet has been verified to exist.</td></tr><tr><td>createdAt</td><td>string</td><td>The timestamp the wallet was updated at.</td></tr><tr><td>updatedAt</td><td>string</td><td>The last timestamp the wallet was updated at.</td></tr></tbody></table>
+<table><thead><tr><th width="259.3333333333333">Attribute Name</th><th>Data Type</th><th>Description </th></tr></thead><tbody><tr><td>id</td><td>string</td><td>Wallet Id for the user.</td></tr><tr><td>userId</td><td>string </td><td>Unique user Id. </td></tr><tr><td>address</td><td>string</td><td>The crypto wallet address.</td></tr><tr><td>blockchain</td><td>string</td><td>The blockchain the wallet is on.</td></tr><tr><td>createdAt</td><td>string</td><td>The timestamp the wallet was updated at.</td></tr><tr><td>updatedAt</td><td>string</td><td>The last timestamp the wallet was updated at.</td></tr></tbody></table>
 
