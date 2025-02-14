@@ -17,7 +17,6 @@ To use our APIs, you'll need an account and an API Key. If you don't have one ye
 * [Bank Accounts](payment-methods/bank-accounts.md)
 * [Wallets](payment-methods/wallets.md)
 * [Crypto](assets.md)
-* [Blockchains](broken-reference)
 * [KYC (Know Your Customer)](kyc-know-your-customer.md)
 
 ## Pro Tips for Reading Documentation&#x20;

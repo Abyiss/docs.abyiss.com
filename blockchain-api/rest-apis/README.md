@@ -24,7 +24,6 @@ The following endpoints are available:
 * [Token Aggregates (Bars)](token-aggregates-bars.md)
 * [Liquidity Pool](pools.md)
 * [Liquidity Pool Aggregates (Bars)](pool-aggregates-bars.md)
-* [Total Value Locked (TVL)](broken-reference)
 
 ## Pro Tips for Reading Documentation&#x20;
 

@@ -14,7 +14,7 @@ Historical data is exchange specific, so some exchanges provide more historical 
 
 ## How It Works
 
-Historical data is accessible on the [**`trades`** ](broken-reference)and [**`aggregates`** ](broken-reference)market data endpoints.
+Historical data is accessible on the [**`trades`** ](../rest-apis/last-trade.md)and [**`aggregates`** ](../rest-apis/aggregates-bars.md) market data endpoints.
 
 To access historical data, use the **`since`** parameter. The **`since`** parameter accepts a Unix timestamp from where you want the data to start.
 

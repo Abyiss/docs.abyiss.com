@@ -24,7 +24,6 @@ The following endpoints are available:
 * [Token Aggregates (Bars)](../../../blockchain-api/rest-apis/token-aggregates-bars.md)
 * [Liquidity Pool](../../../blockchain-api/rest-apis/pools.md)
 * [Liquidity Pool Aggregates (Bars)](../../../blockchain-api/rest-apis/pool-aggregates-bars.md)
-* [Total Value Locked (TVL)](broken-reference)
 
 ## Pro Tips for Reading Documentation&#x20;
 

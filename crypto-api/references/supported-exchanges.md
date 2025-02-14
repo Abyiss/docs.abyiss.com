@@ -4,7 +4,7 @@ description: Centralized exchanges supported on Abyiss.
 
 # Supported Exchanges
 
-At Abyiss, we currently support over 111 centralized cryptocurrency exchanges and trading APIs, and we're constantly adding more to the list. For an up-to-date and accurate list of the exchanges we support, please refer to the [exchange documentation linked here](broken-reference).
+At Abyiss, we currently support over 111 centralized cryptocurrency exchanges and trading APIs, and we're constantly adding more to the list. For an up-to-date and accurate list of the exchanges we support, please refer to the [exchange documentation linked here](https://abyiss.com/exchanges).
 
 If you have any questions or concerns about using any of these exchanges with our platform, please don't hesitate to contact our support team at [support@abyiss.com](mailto:support@abyiss.com).&#x20;
 

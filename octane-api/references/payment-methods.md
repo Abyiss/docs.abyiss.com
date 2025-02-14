@@ -27,7 +27,7 @@ description: >-
 ### Crypto Transfer
 
 * **Description:** Crypto transactions are supported, allowing users to transfer digital assets instantly.
-* **Blockchains:** For a full list of support blockchains please see the [Blockchain API](broken-reference) page.
+* **Blockchains:** For a full list of support blockchains please see the [Assets API](../apis/assets.md) page.
 * **Fees:**
   * Crypto Deposit Fees: None
   * Crypto Withdrawal Fees: Dynamic gas fees (please see the "[Dynamic Gas Fees](https://abyiss.com/fees)" section below for details)

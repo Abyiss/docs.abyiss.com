@@ -14,13 +14,10 @@ To use our REST API, you'll need an account and an API Key. If you don't have on
 
 Our REST API provides access to market data endpoints that contain real-time and historical data about supported exchanges and their symbols. The following data endpoints are available:
 
-* [Current Price](broken-reference)
-* [Aggregates (Bars)](broken-reference)
-* [Trades](broken-reference)
-* [Snapshot](broken-reference)
-* [Order Books](broken-reference)
-* [Liquidity ](broken-reference)
-* [Whales](broken-reference)
+* [Current Price](./current-price.md)
+* [Aggregates (Bars)](./aggregates-bars.md)
+* [Trades](./last-trade.md)
+* [Order Books](./order-books.md)
 
 ## Pro Tips for Reading Documentation&#x20;
 
