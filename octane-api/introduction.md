@@ -1,5 +1,5 @@
 ---
-description: 'Closed Alpha - Octane: Crypto to Fiat On and Off Ramp'
+description: 'Octane: Crypto to Fiat On and Off Ramp'
 ---
 
 # Introduction
